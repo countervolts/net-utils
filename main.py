@@ -4,25 +4,13 @@ import socket
 import psutil
 import sys
 import ctypes
-
+from misc.ascii_art import ASCII_ART
 from misc.commands import undo_commands, wifi_commands, ethernet_commands
-from colorama import init, Fore, Style
 from commandline import command_line_interface
-
-init()
+from colours import COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, RESET
 
 TRACK_FILE = "status"
 LOG_FILE = "log.txt"
-
-
-ASCII_ART = """
-███╗░░██╗███████╗████████╗  ██╗░░░██╗████████╗██╗██╗░░░░░░██████╗
-████╗░██║██╔════╝╚══██╔══╝  ██║░░░██║╚══██╔══╝██║██║░░░░░██╔════╝
-██╔██╗██║█████╗░░░░░██║░░░  ██║░░░██║░░░██║░░░██║██║░░░░░╚█████╗░
-██║╚████║██╔══╝░░░░░██║░░░  ██║░░░██║░░░██║░░░██║██║░░░░░░╚═══██╗
-██║░╚███║███████╗░░░██║░░░  ╚██████╔╝░░░██║░░░██║███████╗██████╔╝
-╚═╝░░╚══╝╚══════╝░░░╚═╝░░░  ░╚═════╝░░░░╚═╝░░░╚═╝╚══════╝╚═════╝░
-"""
 
 def has_perms():
     try:
@@ -64,19 +52,19 @@ def run_commands(commands, interface):
             clear_console()
             list_commands(commands, command_status)
     if not jumbo_supported:
-        print(f"{Fore.YELLOW}Note: Jumbo packets are not supported on this interface. Skipping related commands.{Style.RESET_ALL}")
+        print(f"{COLOR_4}Note: Jumbo packets are not supported on this interface. Skipping related commands.{RESET}")
 
 def list_commands(commands, command_status):
     for i, (description, _) in enumerate(commands):
         if command_status[i] == "pending":
-            status = Fore.RED
+            status = COLOR_1
         elif command_status[i] == "running":
-            status = Fore.YELLOW
+            status = COLOR_2
         elif command_status[i] == "unavailable":
-            status = Fore.BLUE
+            status = COLOR_3
         else:
-            status = Fore.GREEN
-        print(f"{status}{i + 1}. {description}{Style.RESET_ALL}")
+            status = COLOR_4
+        print(f"{status}{i + 1}. {description}{RESET}")
 
 def toggle_command(commands, commands_status):
     while True:
@@ -115,7 +103,6 @@ def clear_console():
 
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "-c":
-        command_line_interface()
         return
 
     if not has_perms():

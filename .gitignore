@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-
 # packaging
 .Python
 env/
@@ -12,11 +11,18 @@ env/
 .env.*
 ENV/
 
-# Logs and databases
+# Code generated files
 debug_info.txt
 log.txt
 status
+custom_commands.json
+network_drivers.txt
 
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Complining files/folders (>pyinstaller --onefile --noconfirm --clean --strip --name netutils main.py)
+/dist/
+/build/
+*.spec
