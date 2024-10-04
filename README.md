@@ -2,6 +2,15 @@
 
 a simple network improver
 
+
+release name explained
+
+
+```
+1.1.XXX <--- this is a shorten SHA hash (changes every update)
+^ ^-------------this is defining the version of the code base (gets changed most)
+this is defining the version of the program (rarely updated)
+```
 ## net cli
 
 a basic networking command line interface with some commands here are the commands
