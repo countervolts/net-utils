@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+
+# packaging
+.Python
+env/
+.venv/
+
+# Environments
+.env
+.env.*
+ENV/
+
+# Logs and databases
+debug_info.txt
+log.txt
+status
+
+# OS-specific files
+.DS_Store
+Thumbs.db
