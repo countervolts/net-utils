@@ -17,6 +17,7 @@ log.txt
 status
 custom_commands.json
 network_drivers.txt
+netscan_log.txt
 
 # OS-specific files
 .DS_Store
