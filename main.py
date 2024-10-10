@@ -5,9 +5,9 @@ import psutil
 import sys
 import ctypes
 from misc.ascii_art import ASCII_ART
-from misc.commands import undo_commands, wifi_commands, ethernet_commands
+from misc.commands import wifi_commands, ethernet_commands, wifi_undo_commands, ethernet_undo_commands
 from commandline import command_line_interface
-from colours import COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, RESET
+from colours import COLOR_1, COLOR_2, COLOR_3, COLOR_4, RESET
 
 TRACK_FILE = "status"
 LOG_FILE = "log.txt"
@@ -115,13 +115,15 @@ def main():
         with open(TRACK_FILE, 'r') as file:
             status = file.read().strip()
     else:
-        status = "not optimized"
+        status = "optimized"
 
     active_connection = get_active_connection()
     if active_connection == "wifi":
         commands = wifi_commands
+        undo_commands = wifi_undo_commands
     elif active_connection == "ethernet":
         commands = ethernet_commands
+        undo_commands = ethernet_undo_commands
     else:
         input("No active WiFi or Ethernet connection detected. (offline?)")
         return
@@ -129,8 +131,9 @@ def main():
     commands_status = [True] * len(commands)
 
     while True:
+        os.system('title netutils')
         print_centered("1. Optimize WiFi Connections" if active_connection == "wifi" else "1. Optimize Ethernet Connections")
-        print_centered("2. Undo Optimizations")
+        print_centered("2. Undo WiFi Optimization" if active_connection == "wifi" else "2. Undo Ethernet Optimization")
         print_centered("3. List/Toggle Commands")
         print_centered("4. Switch to Ethernet" if active_connection == "wifi" else "4. Switch to WiFi")
         print_centered("5. Command Line Interface")
@@ -141,28 +144,28 @@ def main():
         if choice == "1":
             enabled_commands = [cmd for cmd, enabled in zip(commands, commands_status) if enabled]
             print(f"{len(enabled_commands)}/{len(commands)} commands will run.")
-            if status == "true":
-                input("Connections are already optimized. (enter to continue)")
-            else:
-                run_commands(enabled_commands, active_connection)
+            run_commands(enabled_commands, active_connection)
+            if not os.path.exists(TRACK_FILE):
                 with open(TRACK_FILE, 'w') as file:
-                    file.write("optimized")
-                input("Connections have been optimized. (enter to continue)")
-                clear_console()
+                    pass
+            input("Connections have been optimized. (enter to continue)")
+            clear_console()
         elif choice == "2":
-            if status == "not optimized":
-                input("Optimization has not run yet. (enter to continue)")
-                clear_console()
+            os.system('title netutils (unoptimizing)')
+            if not os.path.exists(TRACK_FILE):
+                input("Optimizations have not been done yet. (enter to continue)")
             else:
                 run_commands(undo_commands, active_connection)
-                os.remove(TRACK_FILE)
+                if os.path.exists(TRACK_FILE):
+                    os.remove(TRACK_FILE)
                 input("Optimizations have been undone. (enter to continue)")
-                clear_console()
+            clear_console()
         elif choice == "3":
             toggle_command(commands, commands_status)
         elif choice == "4":
             active_connection = "ethernet" if active_connection == "wifi" else "wifi"
             commands = ethernet_commands if active_connection == "ethernet" else wifi_commands
+            undo_commands = ethernet_undo_commands if active_connection == "ethernet" else wifi_undo_commands
             commands_status = [True] * len(commands)
         elif choice == "5":
             command_line_interface()

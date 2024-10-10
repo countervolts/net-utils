@@ -58,6 +58,7 @@ def command_line_interface(return_to_menu=False):
     custom_commands = load_custom_commands()
     
     while True:
+        os.system('title netcli')
         command = input("netutils> ").strip().lower()
     
         if command == "help" or command == "cmds":
@@ -84,6 +85,7 @@ def command_line_interface(return_to_menu=False):
         elif command == "debug":
             debug()
         elif command.startswith("netscan"):
+            os.system('title netcli (netscan)')
             args = command.split()
             log_file = None
             get_mac = False
@@ -103,6 +105,7 @@ def command_line_interface(return_to_menu=False):
             clear_console()
             print_centered(NETCLI_ASCII_ART)
         elif command == "newmac":
+            os.system('title netcli (new mac)')
             change_mac()
         elif command == "return":
             if return_to_menu:
@@ -112,8 +115,10 @@ def command_line_interface(return_to_menu=False):
                 print_centered(ASCII_ART)
                 return
         elif command == "create":
+            os.system('title netcli (create)')
             create_custom_command(custom_commands)
         elif command == "delete":
+            os.system('title netcli (delete)')
             if not custom_commands:
                 print(f"{COLOR_4}No custom commands to delete!{RESET}")
             else:

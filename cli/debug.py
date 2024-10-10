@@ -4,7 +4,7 @@ import subprocess
 DEBUG_FILE = "debug_info.txt"
 
 def debug():
-    os.system('title netutils (dbg)')
+    os.system('title netcli (gathering debug info)')
     with open(DEBUG_FILE, 'w') as file:
         print("Gathering debug information...")
         file.write("Gathering debug information...\n")

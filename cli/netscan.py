@@ -1,7 +1,6 @@
 import concurrent.futures
 import tqdm
 import subprocess
-import os
 from scapy.all import ARP, Ether, srp
 import nmap
 
