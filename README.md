@@ -7,7 +7,7 @@ release name explained
 
 
 ```
-X.X. <= this is defining the version of the code base (gets changed most)
+X.X <= this is defining the version of the code base (gets changed most)
 ^ 
 this is defining the version of the program (rarely updated)
 ```
